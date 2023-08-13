@@ -6,6 +6,8 @@ ENV PYTHONUNBUFFERED 1
 
 # Copies the requirements to inside the container
 COPY ./requirements.txt /tmp/requirements.txt
+# Copies the dev requirements to inside the container (when in dev environment)
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 # Copies the app folder to inside the ocntainer
 COPY ./app /app
 # Sets the working directory to the copied project directory
@@ -13,6 +15,8 @@ WORKDIR /app
 # Exposes port 8000 from out container to our machine
 EXPOSE 8000
 
+# Initilizaing DEV argument and defaulting it to false
+ARG DEV=false
 # This giga run command is being formated with "&& \" to break a line
 # We start by creating a virtual environment
 RUN python -m venv /py && \
@@ -20,6 +24,10 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
 # Installing depencies from our requirements
     /py/bin/pip install -r /tmp/requirements.txt && \
+# Shell script that verifies if we are in development environment
+    if [ $DEV = "true" ]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
+    fi && \
 # Removing the tmp folder after using it
 # (ITS GOOD TO MAKE YOUR CONTAINER AS LIGHT AS POSSIBLE)
     rm -rf /tmp && \

@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    # left: our port / right: container port
+    ports:
+      - "8000:8000"
+    # Do this to sync code updates to the container file system
+    volumes:
+      - ./app:/app
+    # command to run the service
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
