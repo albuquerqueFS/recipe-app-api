@@ -15,7 +15,7 @@ EXPOSE 8000
 
 # This giga run command is being formated with "&& \" to break a line
 # We start by creating a virtual environment
-RUN python -m venv/ py && \
+RUN python -m venv /py && \
 # Installing and upgrading pip
     /py/bin/pip install --upgrade pip && \
 # Installing depencies from our requirements
