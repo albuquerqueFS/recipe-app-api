@@ -13,7 +13,7 @@ COPY ./app /app
 # Sets the working directory to the copied project directory
 WORKDIR /app
 # Exposes port 8000 from out container to our machine
-EXPOSE 8000
+EXPOSE 8009
 
 # Initilizaing DEV argument and defaulting it to false
 ARG DEV=false
