@@ -24,8 +24,8 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
 # Installing postgres/psycopg2 dependencies
     apk add --update --no-cache postgresql-client && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev &&\
+    apk add --update --no-cache --virtual .tmp-build-deps && \
+        build-base postgresql-dev musl-dev && \
 # Installing depencies from our requirements
     /py/bin/pip install -r /tmp/requirements.txt && \
 # Shell script that verifies if we are in development environment
