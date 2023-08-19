@@ -22,6 +22,10 @@ ARG DEV=false
 RUN python -m venv /py && \
 # Installing and upgrading pip
     /py/bin/pip install --upgrade pip && \
+# Installing postgres/psycopg2 dependencies
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev &&\
 # Installing depencies from our requirements
     /py/bin/pip install -r /tmp/requirements.txt && \
 # Shell script that verifies if we are in development environment
@@ -31,6 +35,8 @@ RUN python -m venv /py && \
 # Removing the tmp folder after using it
 # (ITS GOOD TO MAKE YOUR CONTAINER AS LIGHT AS POSSIBLE)
     rm -rf /tmp && \
+# removing temporary dependencies after installation
+    apk del .tmp-build-deps &&\
 # This adds a new user to inside our image
 # (ITS GOOD PRACTICE TO NOT USE THE ROOT USER (SHIT CAN GO CRAZY IF YOU GET HACKED))
     adduser \
